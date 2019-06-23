@@ -10,7 +10,6 @@ io.on('connection', (socket) => {
   console.log('user connected')
 
   socket.on('send-view', (view) => {
-    console.log(view)
     io.sockets.emit('send-view-brodcast', view)
   })
 

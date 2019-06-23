@@ -1,5 +1,4 @@
 const chalk = require('chalk')
-const debug = require('debug')('app:ser')
 
 function handleFatalError(err) {
   console.error(`${chalk.red('[fatal error]')} ${err.message}`)
