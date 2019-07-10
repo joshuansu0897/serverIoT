@@ -22,28 +22,28 @@ socket.on('disconnect', () => {
 })
 
 // no suelo hacer esto, pero en este caso fue necesario
-let botonAplastadoFlag = false;
+let botonAplastadoFlag = 0;
 
 // evento que pasa cuando precionas las flechas
 window.addEventListener('keydown', onkeydown)
 function onkeydown(ev) {
-  if (botonAplastadoFlag) {
+  if (botonAplastadoFlag != 0) {
     return
   }
   if (ev.keyCode === arrowLeft) {
-    botonAplastadoFlag = true
+    botonAplastadoFlag = arrowLeft
     socket.emit('send-data', 'left')
   }
   if (ev.keyCode === arrowUp) {
-    botonAplastadoFlag = true
+    botonAplastadoFlag = arrowUp
     socket.emit('send-data', 'up')
   }
   if (ev.keyCode === arrowRight) {
-    botonAplastadoFlag = true
+    botonAplastadoFlag = arrowRight
     socket.emit('send-data', 'right')
   }
   if (ev.keyCode === arrowDown) {
-    botonAplastadoFlag = true
+    botonAplastadoFlag = arrowDown
     socket.emit('send-data', 'down')
   }
 }
@@ -54,7 +54,11 @@ function keyup(ev) {
   if (ev.keyCode < arrowLeft || ev.keyCode > arrowDown) {
     return
   }
-  botonAplastadoFlag = false
+
+  if (botonAplastadoFlag !== ev.keyCode) {
+    return
+  }
+
+  botonAplastadoFlag = 0
   socket.emit('send-data', 'stop')
 }
-
