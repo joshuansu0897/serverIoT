@@ -1,3 +1,4 @@
+'use strict'
 const express = require('express')
 const app = express()
 const server = require('http').Server(app)
@@ -16,6 +17,11 @@ io.on('connection', (socket) => {
   socket.on('send-data', (data) => {
     console.log(data)
     io.sockets.emit('send-data-brodcast', data)
+  })
+
+  socket.on('send-metrics', (data) => {
+    console.log(data)
+    io.sockets.emit('send-metrics-brodcast', data)
   })
 })
 

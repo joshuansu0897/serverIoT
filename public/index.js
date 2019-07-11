@@ -1,4 +1,5 @@
-var socket = io('http://localhost:8080')
+'use strict'
+const socket = io('http://localhost:8080')
 
 const remote = document.getElementById('remote_video')
 
@@ -15,6 +16,10 @@ socket.on('send-view-brodcast', (data) => {
   // aqui esta el video que manda el ras
   let base64String = btoa(String.fromCharCode(...new Uint8Array(data)))
   remote.src = 'data:image/jpeg;base64,' + base64String
+})
+
+socket.on('send-metrics-brodcast', (data) => {
+  console.log(data)
 })
 
 socket.on('disconnect', () => {
