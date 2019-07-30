@@ -9,11 +9,11 @@ const arrowRight = 39
 const arrowDown = 40
 
 socket.on('connect', () => {
-  console.log('Hola')
+  console.log('Connected')
 })
 
 socket.on('send-view-brodcast', (data) => {
-  // aqui esta el video que manda el ras
+  // Raspberry video streaming
   let base64String = btoa(String.fromCharCode(...new Uint8Array(data)))
   remote.src = 'data:image/jpeg;base64,' + base64String
 })
@@ -23,37 +23,37 @@ socket.on('send-metrics-brodcast', (data) => {
 })
 
 socket.on('disconnect', () => {
-  console.log('Adios')
+  console.log('Disconnected')
 })
 
-// no suelo hacer esto, pero en este caso fue necesario
-let botonAplastadoFlag = 0;
+// Button State
+let buttonFlag = 0;
 
-// evento que pasa cuando precionas las flechas
+// Push Button State
 window.addEventListener('keydown', onkeydown)
 function onkeydown(ev) {
-  if (botonAplastadoFlag != 0) {
+  if (buttonFlag != 0) {
     return
   }
   if (ev.keyCode === arrowLeft) {
-    botonAplastadoFlag = arrowLeft
+    buttonFlag = arrowLeft
     socket.emit('send-data', 'left')
   }
   if (ev.keyCode === arrowUp) {
-    botonAplastadoFlag = arrowUp
+    buttonFlag = arrowUp
     socket.emit('send-data', 'up')
   }
   if (ev.keyCode === arrowRight) {
-    botonAplastadoFlag = arrowRight
+    buttonFlag = arrowRight
     socket.emit('send-data', 'right')
   }
   if (ev.keyCode === arrowDown) {
-    botonAplastadoFlag = arrowDown
+    buttonFlag = arrowDown
     socket.emit('send-data', 'down')
   }
 }
 
-// evento que pasa cuando dejas de precionar las flechas
+// Release Button Event
 window.addEventListener('keyup', keyup)
 function keyup(ev) {
   if (ev.keyCode < arrowLeft || ev.keyCode > arrowDown) {
@@ -64,6 +64,6 @@ function keyup(ev) {
     return
   }
 
-  botonAplastadoFlag = 0
+  buttonFlag = 0
   socket.emit('send-data', 'stop')
 }
